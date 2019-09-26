@@ -46,6 +46,7 @@
 #include "dict.h"
 #include "zmalloc.h"
 #include "redisassert.h"
+#include "server.h"
 
 /* Using dictEnableResize() / dictDisableResize() we make possible to
  * enable/disable resizing of the hash table as needed. This is very important
@@ -577,6 +578,8 @@ dictIterator *dictGetSafeIterator(dict *d) {
 
 dictEntry *dictNext(dictIterator *iter)
 {
+    //这个函数每秒都会被调用
+    //serverLog(LL_DEBUG, "dict.c dictNext start\n");
     while (1) {
         if (iter->entry == NULL) {
             dictht *ht = &iter->d->ht[iter->table];

@@ -65,6 +65,7 @@ static int checkStringLength(client *c, long long size) {
 #define OBJ_SET_PX (1<<3)     /* Set if time in ms in given */
 
 void setGenericCommand(client *c, int flags, robj *key, robj *val, robj *expire, int unit, robj *ok_reply, robj *abort_reply) {
+    serverLog(LL_DEBUG, "set generic ===");
     long long milliseconds = 0; /* initialized to avoid any harmness warning */
 
     if (expire) {
@@ -94,6 +95,7 @@ void setGenericCommand(client *c, int flags, robj *key, robj *val, robj *expire,
 
 /* SET key value [NX] [XX] [EX <seconds>] [PX <milliseconds>] */
 void setCommand(client *c) {
+    serverLog(LL_DEBUG, "set command ===");
     int j;
     robj *expire = NULL;
     int unit = UNIT_SECONDS;

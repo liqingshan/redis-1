@@ -190,9 +190,11 @@ int hashTypeExists(robj *o, robj *field) {
  * This function will take care of incrementing the reference count of the
  * retained fields and value objects. */
 int hashTypeSet(robj *o, robj *field, robj *value) {
+    printf("hashTypeSet start\n");
     int update = 0;
 
     if (o->encoding == OBJ_ENCODING_ZIPLIST) {
+        printf("hashTypeSet encoding ziplist\n");
         unsigned char *zl, *fptr, *vptr;
 
         field = getDecodedObject(field);
@@ -229,6 +231,7 @@ int hashTypeSet(robj *o, robj *field, robj *value) {
         if (hashTypeLength(o) > server.hash_max_ziplist_entries)
             hashTypeConvert(o, OBJ_ENCODING_HT);
     } else if (o->encoding == OBJ_ENCODING_HT) {
+        printf("hashTypeSet encoding ht\n");
         if (dictReplace(o->ptr, field, value)) { /* Insert */
             incrRefCount(field);
         } else { /* Update */
